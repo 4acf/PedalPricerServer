@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
 using PedalPricerServer.Services;
 
@@ -15,25 +16,43 @@ namespace PedalPricerServer.Controllers
     [ApiController]
     public class PowerSuppliesController : ControllerBase
     {
-        private readonly PedalPricerDbContext _context;
+        private readonly PedalPricerDbContext _dbContext;
         private readonly FileService _fileService;
 
-        public PowerSuppliesController(PedalPricerDbContext context, FileService fileService)
+        public PowerSuppliesController(PedalPricerDbContext dbContext, FileService fileService)
         {
-            _context = context;
+            _dbContext = dbContext;
             _fileService = fileService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PowerSupply>>> GetPowerSupplies()
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPowerSupplies()
         {
-            return await _context.PowerSupplies.ToListAsync();
+            return await _dbContext.PowerSupplies.Select(powerSupply => new ItemDto(
+                powerSupply.ID,
+                powerSupply.Brand,
+                powerSupply.Name
+            )).ToListAsync();
+
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPowerSupply(Guid id)
+        public async Task<ActionResult<PowerSupply>> GetPowerSupply(Guid id)
         {
-            var powerSupply = await _context.PowerSupplies.FindAsync(id);
+            var powerSupply = await _dbContext.PowerSupplies.FindAsync(id);
+
+            if (powerSupply == null)
+            {
+                return NotFound();
+            }
+
+            return powerSupply;
+        }
+
+        [HttpGet("{id}/image")]
+        public async Task<IActionResult> GetPowerSupplyImage(Guid id)
+        {
+            var powerSupply = await _dbContext.PowerSupplies.FindAsync(id);
 
             if (powerSupply == null)
             {

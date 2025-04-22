@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
 using PedalPricerServer.Services;
 
@@ -15,25 +16,44 @@ namespace PedalPricerServer.Controllers
     [ApiController]
     public class PedalsController : ControllerBase
     {
-        private readonly PedalPricerDbContext _context;
+        private readonly PedalPricerDbContext _dbContext;
         private readonly FileService _fileService;
 
-        public PedalsController(PedalPricerDbContext context, FileService fileService)
+        public PedalsController(PedalPricerDbContext dbContext, FileService fileService)
         {
-            _context = context;
+            _dbContext = dbContext;
             _fileService = fileService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pedal>>> GetPedals()
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedals()
         {
-            return await _context.Pedals.ToListAsync();
+            //return await _dbContext.Pedals.ToListAsync();
+            return await _dbContext.Pedals.Select(pedal => new ItemDto(
+                pedal.ID,
+                pedal.Brand,
+                pedal.Name
+            )).ToListAsync();
+
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPedal(Guid id)
+        public async Task<ActionResult<Pedal>> GetPedal(Guid id)
         {
-            var pedal = await _context.Pedals.FindAsync(id);
+            var pedal = await _dbContext.Pedals.FindAsync(id);
+
+            if (pedal == null)
+            {
+                return NotFound();
+            }
+
+            return pedal;
+        }
+
+        [HttpGet("{id}/image")]
+        public async Task<IActionResult> GetPedalImage(Guid id)
+        {
+            var pedal = await _dbContext.Pedals.FindAsync(id);
 
             if (pedal == null)
             {
