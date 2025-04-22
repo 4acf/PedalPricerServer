@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
 using PedalPricerServer.Services;
+using System.Net.Mime;
 
 namespace PedalPricerServer.Controllers
 {
@@ -28,13 +23,11 @@ namespace PedalPricerServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedals()
         {
-            //return await _dbContext.Pedals.ToListAsync();
             return await _dbContext.Pedals.Select(pedal => new ItemDto(
                 pedal.ID,
                 pedal.Brand,
                 pedal.Name
             )).ToListAsync();
-
         }
 
         [HttpGet("{id}")]

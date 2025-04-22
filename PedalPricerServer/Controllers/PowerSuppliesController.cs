@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
 using PedalPricerServer.Services;
+using System.Net.Mime;
 
 namespace PedalPricerServer.Controllers
 {
@@ -33,7 +28,6 @@ namespace PedalPricerServer.Controllers
                 powerSupply.Brand,
                 powerSupply.Name
             )).ToListAsync();
-
         }
 
         [HttpGet("{id}")]

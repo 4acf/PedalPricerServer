@@ -1,6 +1,5 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using System.Configuration;
 
 namespace PedalPricerServer.Services
 {
@@ -28,7 +27,7 @@ namespace PedalPricerServer.Services
                 stream.Position = 0;
                 return stream;
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 throw new AggregateException(e);
             }

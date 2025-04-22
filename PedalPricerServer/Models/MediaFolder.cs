@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-
-namespace PedalPricerServer.Models
+﻿namespace PedalPricerServer.Models
 {
     public static class MediaFolder
     {

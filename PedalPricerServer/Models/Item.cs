@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace PedalPricerServer.Models
+﻿namespace PedalPricerServer.Models
 {
     public abstract class Item
     {
