@@ -20,8 +20,8 @@ namespace PedalPricerServer.Controllers
             _fileService = fileService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedalboards()
+        [HttpGet("info")]
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedalboardInfo()
         {
             return await _dbContext.Pedalboards.Select(pedalboard => new ItemDto(
                 pedalboard.ID,
@@ -30,17 +30,32 @@ namespace PedalPricerServer.Controllers
             )).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Pedalboard>> GetPedalboard(Guid id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Pedalboard>>> GetPedalboards(string rawIDs)
         {
-            var pedalboard = await _dbContext.Pedalboards.FindAsync(id);
+            var ids = rawIDs.Split(',');
+            var guids = new List<Guid>();
 
-            if (pedalboard == null)
+            foreach (var id in ids)
             {
-                return NotFound();
+                if (Guid.TryParse(id, out var guid))
+                {
+                    guids.Add(guid);
+                }
             }
 
-            return pedalboard;
+            var pedalboards = new List<Pedalboard>();
+
+            foreach (var guid in guids)
+            {
+                var pedalboard = await _dbContext.Pedalboards.FindAsync(guid);
+                if (pedalboard != null)
+                {
+                    pedalboards.Add(pedalboard);
+                }
+            }
+
+            return pedalboards;
         }
 
         [HttpGet("{id}/image")]

@@ -20,8 +20,8 @@ namespace PedalPricerServer.Controllers
             _fileService = fileService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPowerSupplies()
+        [HttpGet("info")]
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPowerSupplyInfo()
         {
             return await _dbContext.PowerSupplies.Select(powerSupply => new ItemDto(
                 powerSupply.ID,
@@ -30,17 +30,32 @@ namespace PedalPricerServer.Controllers
             )).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PowerSupply>> GetPowerSupply(Guid id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PowerSupply>>> GetPowerSupplies(string rawIDs)
         {
-            var powerSupply = await _dbContext.PowerSupplies.FindAsync(id);
+            var ids = rawIDs.Split(',');
+            var guids = new List<Guid>();
 
-            if (powerSupply == null)
+            foreach (var id in ids)
             {
-                return NotFound();
+                if (Guid.TryParse(id, out var guid))
+                {
+                    guids.Add(guid);
+                }
             }
 
-            return powerSupply;
+            var powerSupplies = new List<PowerSupply>();
+
+            foreach (var guid in guids)
+            {
+                var powerSupply = await _dbContext.PowerSupplies.FindAsync(guid);
+                if (powerSupply != null)
+                {
+                    powerSupplies.Add(powerSupply);
+                }
+            }
+
+            return powerSupplies;
         }
 
         [HttpGet("{id}/image")]

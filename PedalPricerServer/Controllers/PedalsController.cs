@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
@@ -20,8 +21,8 @@ namespace PedalPricerServer.Controllers
             _fileService = fileService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedals()
+        [HttpGet("info")]
+        public async Task<ActionResult<IEnumerable<ItemDto>>> GetPedalInfo()
         {
             return await _dbContext.Pedals.Select(pedal => new ItemDto(
                 pedal.ID,
@@ -30,17 +31,32 @@ namespace PedalPricerServer.Controllers
             )).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Pedal>> GetPedal(Guid id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Pedal>>> GetPedals(string rawIDs)
         {
-            var pedal = await _dbContext.Pedals.FindAsync(id);
+            var ids = rawIDs.Split(',');
+            var guids = new List<Guid>();
 
-            if (pedal == null)
+            foreach (var id in ids)
             {
-                return NotFound();
+                if (Guid.TryParse(id, out var guid))
+                {
+                    guids.Add(guid);
+                }
             }
 
-            return pedal;
+            var pedals = new List<Pedal>();
+
+            foreach (var guid in guids)
+            {
+                var pedal = await _dbContext.Pedals.FindAsync(guid);
+                if (pedal != null)
+                {
+                    pedals.Add(pedal);
+                }
+            }
+
+            return pedals;
         }
 
         [HttpGet("{id}/image")]
