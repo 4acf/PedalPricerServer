@@ -55,11 +55,11 @@ namespace PedalPricerServer.Controllers
 
             try
             {
-                Stream stream = await _fileService.ReadImage(MediaFolder.Pedalboards, pedalboard.Name);
+                Stream stream = await _fileService.ReadImage(MediaFolder.Pedalboards, pedalboard.Filename);
 
                 Response.Headers.Append("Content-Disposition", new ContentDisposition
                 {
-                    FileName = $"{pedalboard.Name}.png",
+                    FileName = pedalboard.Filename,
                     Inline = true
                 }.ToString());
 
