@@ -13,6 +13,9 @@ namespace PedalPricerServer.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Pedal>()
                 .HasKey(p => p.ID);
 

@@ -53,15 +53,22 @@ namespace PedalPricerServer.Controllers
                 return NotFound();
             }
 
-            Stream stream = await _fileService.ReadImage(MediaFolder.PowerSupplies, powerSupply.Name);
-
-            Response.Headers.Append("Content-Disposition", new ContentDisposition
+            try
             {
-                FileName = $"{powerSupply.Name}.png",
-                Inline = true
-            }.ToString());
+                Stream stream = await _fileService.ReadImage(MediaFolder.PowerSupplies, powerSupply.Name);
 
-            return File(stream, "image/png");
+                Response.Headers.Append("Content-Disposition", new ContentDisposition
+                {
+                    FileName = $"{powerSupply.Name}.png",
+                    Inline = true
+                }.ToString());
+
+                return File(stream, "image/png");
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
     }

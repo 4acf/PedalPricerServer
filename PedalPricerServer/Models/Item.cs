@@ -2,11 +2,11 @@
 {
     public abstract class Item
     {
-        public Guid ID { get; }
-        public string Brand { get; } = string.Empty;
-        public string Name { get; } = string.Empty;
-        public float Width { get; }
+        public Guid ID { get; private set; }
+        public string Brand { get; set; } = string.Empty;
+        public string Name { get; set;  } = string.Empty;
+        public float Width { get; set; }
         public float Height { get; set; }
-        public string Filename { get; } = string.Empty;
+        public string Filename { get; set; } = string.Empty;
     }
 }

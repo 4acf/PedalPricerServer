@@ -12,25 +12,18 @@ namespace PedalPricerServer.Services
 
         public async Task<Stream> ReadImage(string key, string filename)
         {
-            try
+            var request = new GetObjectRequest
             {
-                var request = new GetObjectRequest
-                {
-                    BucketName = _bucketName,
-                    Key = $"{key}/{filename}",
-                };
-                using var client = new AmazonS3Client(_accessKey, _secretKey, Amazon.RegionEndpoint.GetBySystemName(_region));
-                using var getObjectResponse = await client.GetObjectAsync(request);
-                using var responseStream = getObjectResponse.ResponseStream;
-                var stream = new MemoryStream();
-                await responseStream.CopyToAsync(stream);
-                stream.Position = 0;
-                return stream;
-            }
-            catch (Exception e)
-            {
-                throw new AggregateException(e);
-            }
+                BucketName = _bucketName,
+                Key = $"{key}/{filename}",
+            };
+            using var client = new AmazonS3Client(_accessKey, _secretKey, Amazon.RegionEndpoint.GetBySystemName(_region));
+            using var getObjectResponse = await client.GetObjectAsync(request);
+            using var responseStream = getObjectResponse.ResponseStream;
+            var stream = new MemoryStream();
+            await responseStream.CopyToAsync(stream);
+            stream.Position = 0;
+            return stream;
         }
     }
 }
