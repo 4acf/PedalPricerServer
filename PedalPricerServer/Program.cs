@@ -13,6 +13,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PedalPricerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddSingleton<FileService>();
 
+var CorsPolicy = "_CorsPolicy";
+builder.Services.AddCors(p => p.AddPolicy(CorsPolicy, builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(CorsPolicy);
 
 app.UseHttpsRedirection();
 
