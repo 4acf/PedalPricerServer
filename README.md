@@ -20,12 +20,12 @@ All items follow the same schema:
 ```
 
 Filename points to file hosted on an S3 bucket.
-Complete documentation can be found via the built-in swagger docs.
+Complete API documentation can be found via the built-in swagger docs.
 
-To run the server you'll need an S3 bucket which contains all the image files in separate folders (pedals, pedalboards, and powersupplies). Then set the following four values using `dotnet user-secrets set "{key}" "{value}"`:
+To run the server you'll need an S3 bucket which contains all the image files in separate folders (pedals, pedalboards, and powersupplies). Then set the access key, secret access key, and region values via environment variables:
 <ul>
-  <li>AWS:BucketName</li>
-  <li>AWS:Region</li>
-  <li>AWS:AccessKey</li>
-  <li>AWS:SecretKey</li>
+    <li>Install AWS CLI</li>
+    <li>Run aws configure --profile {profile name}</li>
+    <li>When prompted, enter the access key, secret access key</li>
+    <li>Go to Project > Properties > Debug. Set AWS_PROFILE to {profile name} and AWS_REGION to the region name. This will update launchSettings.json</li>
 </ul>
