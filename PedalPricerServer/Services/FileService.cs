@@ -1,14 +1,13 @@
-﻿using Amazon.S3;
+﻿using Amazon;
+using Amazon.S3;
 using Amazon.S3.Model;
+using System.Diagnostics;
 
 namespace PedalPricerServer.Services
 {
-    public class FileService(IConfiguration configuration)
+    public class FileService()
     {
-        private string? _bucketName => configuration.GetValue<string>("AWS:BucketName");
-        private string? _region => configuration.GetValue<string>("AWS:Region");
-        private string? _accessKey => configuration.GetValue<string>("AWS:AccessKey");
-        private string? _secretKey => configuration.GetValue<string>("AWS:SecretKey");
+        private string _bucketName = "pedal-pricer-bucket";
 
         public async Task<Stream> ReadImage(string key, string filename)
         {
@@ -17,7 +16,7 @@ namespace PedalPricerServer.Services
                 BucketName = _bucketName,
                 Key = $"{key}/{filename}",
             };
-            using var client = new AmazonS3Client(_accessKey, _secretKey, Amazon.RegionEndpoint.GetBySystemName(_region));
+            using var client = new AmazonS3Client();
             using var getObjectResponse = await client.GetObjectAsync(request);
             using var responseStream = getObjectResponse.ResponseStream;
             var stream = new MemoryStream();
