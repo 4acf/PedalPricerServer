@@ -9,7 +9,7 @@ All items follow the same schema:
 ```json
 [
     {
-        "id": 00000000-0000-0000-0000-000000000000,
+        "id": "15ca6508-19d5-43ff-24ce-08dd8226a971",
         "brand": "MXR",
         "name": "Dyna Comp",
         "width": 2.670,
