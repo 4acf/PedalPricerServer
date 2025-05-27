@@ -4,7 +4,6 @@ namespace PedalPricerServer.Models
 {
     public class PedalPricerDbContext : DbContext
     {
-
         public DbSet<Pedal> Pedals { get; set; }
         public DbSet<Pedalboard> Pedalboards { get; set; }
         public DbSet<PowerSupply> PowerSupplies { get; set; }
@@ -25,6 +24,5 @@ namespace PedalPricerServer.Models
             modelBuilder.Entity<PowerSupply>()
                 .HasKey(ps => ps.ID);
         }
-
     }
 }

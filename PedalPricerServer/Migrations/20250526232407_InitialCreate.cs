@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PedalPricerServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,8 +15,12 @@ namespace PedalPricerServer.Migrations
                 name: "Pedalboards",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Height = table.Column<float>(type: "real", nullable: false)
+                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Brand = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Width = table.Column<float>(type: "REAL", nullable: false),
+                    Height = table.Column<float>(type: "REAL", nullable: false),
+                    Filename = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,8 +31,12 @@ namespace PedalPricerServer.Migrations
                 name: "Pedals",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Height = table.Column<float>(type: "real", nullable: false)
+                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Brand = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Width = table.Column<float>(type: "REAL", nullable: false),
+                    Height = table.Column<float>(type: "REAL", nullable: false),
+                    Filename = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,8 +47,12 @@ namespace PedalPricerServer.Migrations
                 name: "PowerSupplies",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Height = table.Column<float>(type: "real", nullable: false)
+                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Brand = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Width = table.Column<float>(type: "REAL", nullable: false),
+                    Height = table.Column<float>(type: "REAL", nullable: false),
+                    Filename = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -30,36 +30,21 @@ namespace PedalPricerServer.Controllers
             )).ToListAsync();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PowerSupply>>> GetPowerSupplies(string rawIDs)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PowerSupply>> GetPowerSupplies(string id)
         {
-            var ids = rawIDs.Split(',');
-            var guids = new List<Guid>();
+            var powerSupply = await _dbContext.PowerSupplies.FindAsync(id);
 
-            foreach (var id in ids)
+            if(powerSupply == null)
             {
-                if (Guid.TryParse(id, out var guid))
-                {
-                    guids.Add(guid);
-                }
+                return NotFound();
             }
 
-            var powerSupplies = new List<PowerSupply>();
-
-            foreach (var guid in guids)
-            {
-                var powerSupply = await _dbContext.PowerSupplies.FindAsync(guid);
-                if (powerSupply != null)
-                {
-                    powerSupplies.Add(powerSupply);
-                }
-            }
-
-            return powerSupplies;
+            return powerSupply;
         }
 
         [HttpGet("{id}/image")]
-        public async Task<IActionResult> GetPowerSupplyImage(Guid id)
+        public async Task<IActionResult> GetPowerSupplyImage(string id)
         {
             var powerSupply = await _dbContext.PowerSupplies.FindAsync(id);
 
