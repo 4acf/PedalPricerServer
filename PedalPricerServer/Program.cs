@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<PedalPricerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+builder.Services.AddDbContext<PedalPricerDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection")));
 builder.Services.AddSingleton<FileService>();
 
 var CorsPolicy = "_CorsPolicy";

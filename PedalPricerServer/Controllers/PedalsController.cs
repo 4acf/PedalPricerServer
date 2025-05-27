@@ -31,36 +31,21 @@ namespace PedalPricerServer.Controllers
             )).ToListAsync();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pedal>>> GetPedals(string rawIDs)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Pedal>> GetPedal(string id)
         {
-            var ids = rawIDs.Split(',');
-            var guids = new List<Guid>();
+            var pedal = await _dbContext.Pedals.FindAsync(id);
 
-            foreach (var id in ids)
+            if (pedal == null)
             {
-                if (Guid.TryParse(id, out var guid))
-                {
-                    guids.Add(guid);
-                }
+                return NotFound();
             }
 
-            var pedals = new List<Pedal>();
-
-            foreach (var guid in guids)
-            {
-                var pedal = await _dbContext.Pedals.FindAsync(guid);
-                if (pedal != null)
-                {
-                    pedals.Add(pedal);
-                }
-            }
-
-            return pedals;
+            return pedal;
         }
 
         [HttpGet("{id}/image")]
-        public async Task<IActionResult> GetPedalImage(Guid id)
+        public async Task<IActionResult> GetPedalImage(string id)
         {
             var pedal = await _dbContext.Pedals.FindAsync(id);
 
