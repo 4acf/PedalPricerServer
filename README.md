@@ -27,5 +27,5 @@ To run the server you'll need an S3 bucket which contains all the image files in
     <li>Install AWS CLI</li>
     <li>Run aws configure --profile {profile name}</li>
     <li>When prompted, enter the access key, secret access key</li>
-    <li>Go to Project > Properties > Debug. Set AWS_PROFILE to {profile name} and AWS_REGION to the region name. This will update launchSettings.json</li>
+    <li>Go to Project > Properties > Debug. Set AWS_PROFILE to {profile name} and AWS_REGION to the region name. Set BUCKET_NAME to the bucket name. This will update launchSettings.json</li>
 </ul>
