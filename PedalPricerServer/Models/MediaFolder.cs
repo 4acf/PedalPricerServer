@@ -5,5 +5,6 @@
         public const string Pedals = "pedals";
         public const string Pedalboards = "pedalboards";
         public const string PowerSupplies = "powersupplies";
+        public const string Sqlite = "sqlite";
     }
 }

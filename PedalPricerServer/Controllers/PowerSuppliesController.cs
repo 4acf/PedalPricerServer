@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PedalPricerServer.Db;
 using PedalPricerServer.Dto;
 using PedalPricerServer.Models;
 using PedalPricerServer.Services;
@@ -55,7 +56,7 @@ namespace PedalPricerServer.Controllers
 
             try
             {
-                Stream stream = await _fileService.ReadImage(MediaFolder.PowerSupplies, powerSupply.Filename);
+                Stream stream = await _fileService.ReadFile(MediaFolder.PowerSupplies, powerSupply.Filename);
 
                 Response.Headers.Append("Content-Disposition", new ContentDisposition
                 {

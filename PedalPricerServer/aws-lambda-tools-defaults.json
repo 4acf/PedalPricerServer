@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-2",
+    "profile" : "pedal-pricer-user-profile",
+    "configuration" : "Release",
+    "framework"     : "net8.0",
+    "function-name" : "PedalPricerFunction",
+    "package-type"  : "Zip",
+    "function-handler" : "PedalPricerServer",
+    "function-memory-size" : 512,
+    "function-role"        : "arn:aws:iam::140023371033:role/service-role/PedalPricerFunction-role-muyey8wh",
+    "function-timeout"     : 10,
+    "function-runtime"     : "dotnet8",
+    "function-architecture" : "x86_64",
+    "function-subnets"      : "",
+    "function-security-groups" : "",
+    "tracing-mode"             : "PassThrough",
+    "environment-variables"    : "",
+    "image-tag"                : ""
+}

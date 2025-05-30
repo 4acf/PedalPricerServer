@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PedalPricerServer.Models;
 
-namespace PedalPricerServer.Models
+namespace PedalPricerServer.Db
 {
     public class PedalPricerDbContext : DbContext
     {

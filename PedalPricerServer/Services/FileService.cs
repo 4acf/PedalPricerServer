@@ -9,7 +9,7 @@ namespace PedalPricerServer.Services
     {
         private readonly string? _bucketName = Environment.GetEnvironmentVariable("BUCKET_NAME");
 
-        public async Task<Stream> ReadImage(string key, string filename)
+        public async Task<Stream> ReadFile(string key, string filename)
         {
             var request = new GetObjectRequest
             {
